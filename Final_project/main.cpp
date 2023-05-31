@@ -13,10 +13,10 @@ float teapotX=0,teapotY=0;
 float angle[20]={};
 void keyboard(unsigned char key,int x,int y)
 {
-    if(key=='0') ID=0;
-    if(key=='1') ID=1;
-    if(key=='2') ID=2;
-    if(key=='3') ID=3;
+    if(key=='0') ID = 0;
+    if(key=='1') ID = 1;
+    if(key=='2') ID = 2;
+    if(key=='3') ID = 3;
     if(key=='s'){
         if(fout==NULL)fout=fopen("motion.txt","w");
         for(int i=0;i<20;i++){
@@ -26,10 +26,11 @@ void keyboard(unsigned char key,int x,int y)
     }else if(key=='r'){
         if(fin==NULL) fin=fopen("motion.txt","r");
         for(int i=0;i<20;i++){
-            fscanf(fin,"%f", &angle[i]);
+            fscanf(fin,"%f", &angle[i] );
         }
         glutPostRedisplay();
     }///原來的keyboard先註解、不要用
+
     glutPostRedisplay();
 }
 
@@ -56,23 +57,18 @@ void display()
         if(show[1]) glmDraw(body,GLM_MATERIAL);
 
         glPushMatrix();
-            ///glTranslatef(-1.260000,+0.440000,0);
             glTranslatef(-1.200000,+0.453333,0);
             glRotatef(angle[2],0,0,1);///改用陣列
-            //glTranslatef(teapotX,teapotY,0);
             glTranslatef(1.200000,-0.453333,0);
-            ///glTranslatef(1.260000,-0.440000,0);
+
 
             if(ID==2)glColor3f(1,0,0);///選定的,設紅色
             else glColor3f(1,1,1);///沒選定,設白色
             if(show[2]) glmDraw(uparmR,GLM_MATERIAL);
             glPushMatrix();
-                ///glTranslatef(-1.193333,+0.600000,0);
                 glTranslatef(-1.959999,+0.113333,0);
                 glRotatef(angle[3],0,0,1);
                 glTranslatef(1.959999,-0.113333,0);
-                ///glTranslatef(1.193333,-0.600000,0);
-                //glTranslatef(teapotX,teapotY,0);
 
                 if(ID==3)glColor3f(1,0,0);///選定的,設紅色
                 else glColor3f(1,1,1);///沒選定,設白色
@@ -80,6 +76,7 @@ void display()
             glPopMatrix();
         glPopMatrix();
     glPopMatrix();
+
     glColor3f(0,1,0);
     glutSolidTeapot(0.02);
     glutSwapBuffers();
@@ -90,11 +87,10 @@ void motion(int x,int y)
 {
     teapotX += (x - oldX)/150.0;
     teapotY -= (y - oldY)/150.0;
-    angle[ID] += (x-oldX);
+    angle[ID] += (x - oldX); /// 改用陣列, 且程式放高一點
     oldX = x;
     oldY = y;
-    ///angle=x;
-    printf("glTranslatef(%f,%f,0)\n",teapotX,teapotY);
+    printf("glTranslatef(%f, %f, 0);\n", teapotX, teapotY);
     glutPostRedisplay();
 }
 void mouse(int button, int state, int x, int y)
@@ -102,9 +98,10 @@ void mouse(int button, int state, int x, int y)
     if(state==GLUT_DOWN){
         oldX = x;///teapotX = (x-150)/150.0;
         oldY = y;///teapotY = (150-y)/150.0;
-        ///angle[ID] = x;
-        ///if(fout==NULL) fout = fopen("file4.txt","w");
-        ///fprintf(fout, "%f %f\n", teapotX, teapotY);
+        ///angle = x;
+        ///printf("glTranslatef(%f, %f, 0);\n", teapotX, teapotY);
+        ///if(fout==NULL) fout = fopen("file4.txt", "w"); ///step02-2 沒開檔,就開
+        ///fprintf(fout, "%f %f\n", teapotX, teapotY); ///step02-2 要再存座標
     }
     display();
 }
@@ -132,8 +129,6 @@ int main(int argc, char *argv[])
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutKeyboardFunc(keyboard);
-
-
 
     glutMainLoop();
 
