@@ -123,12 +123,11 @@ int main(int argc, char *argv[])
 
     glutCreateWindow("week12");///開GLUT視窗
 
-
-
     glutDisplayFunc(display);///顯示用的函式
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutKeyboardFunc(keyboard);
+    glEnable(GL_DEPTH_TEST); ///3D
 
     glutMainLoop();
 
